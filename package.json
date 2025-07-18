@@ -3,10 +3,13 @@
   "version": "1.0.1",
   "main": "index.js",
   "type": "module",
+  "bin": {
+    "resumo-salas": "./dist/server.js"
+  },
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && node scripts/add-shebang.js",
     "start": "node dist/server.js",
-    "dev": "NODE_OPTIONS=\"--loader ts-node/esm\" nodemon src/test.ts",
+    "dev": "node --loader ts-node/esm src/server.ts",
     "test": "NODE_OPTIONS=\"--loader ts-node/esm\" nodemon src/test.ts"
   },
   "keywords": [],
@@ -25,6 +28,7 @@
   "devDependencies": {
     "@types/node": "^22.13.4",
     "nodemon": "^3.1.9",
+    "prepend-file": "^2.0.1",
     "ts-node": "^10.9.2",
     "typescript": "^5.2.2"
   }
