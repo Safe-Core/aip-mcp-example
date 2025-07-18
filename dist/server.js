@@ -1,41 +1,29 @@
 import { McpServer, ResourceTemplate } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
-
 // Create an MCP server
 const server = new McpServer({
-  name: "resumo-salas",
-  version: "1.0.0"
+    name: "resumo-salas",
+    version: "1.0.0"
 });
-
 // Add an addition tool
-server.registerTool("add",
-  {
+server.registerTool("add", {
     title: "Addition Tool",
     description: "Add two numbers",
     inputSchema: { a: z.number(), b: z.number() }
-  },
-  async ({ a, b }) => ({
+}, async ({ a, b }) => ({
     content: [{ type: "text", text: String(a + b) }]
-  })
-);
-
+}));
 // Add a dynamic greeting resource
-server.registerResource(
-  "greeting",
-  new ResourceTemplate("greeting://{name}", { list: undefined }),
-  { 
-    title: "Greeting Resource",      // Display name for UI
+server.registerResource("greeting", new ResourceTemplate("greeting://{name}", { list: undefined }), {
+    title: "Greeting Resource", // Display name for UI
     description: "Dynamic greeting generator"
-  },
-  async (uri, { name }) => ({
+}, async (uri, { name }) => ({
     contents: [{
-      uri: uri.href,
-      text: `Olá estou aqui para ajudar com AIP, ${name}!`
-    }]
-  })
-);
-
+            uri: uri.href,
+            text: `Olá estou aqui para ajudar com AIP, ${name}!`
+        }]
+}));
 // Start receiving messages on stdin and sending messages on stdout
 const transport = new StdioServerTransport();
 await server.connect(transport);
